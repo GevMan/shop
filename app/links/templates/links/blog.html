@@ -1,0 +1,69 @@
+{% extends 'base.html'%}
+{% block title %}
+   Blog page
+{% endblock %}
+
+{% block content_title %}
+    <h1 class="text-center">Posts</h1>
+    
+    <div>
+        {% if session['logged_in'] %}
+            <a href="{{ url_for('links_blog.addpost',page_num=page) }}" class="btn btn-danger float-right">Add Post</a>
+       {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {{ search }}
+    {% for post in blogPage.items %}
+        <div class="col-4 mt-3 ">
+            <div class="card">
+              <a href="{{ url_for('links_blog.singlePage',id=post.id) }}">  <img src="/static/images/{{post.image}}" height="250" class="card-img-top" alt="..."></a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content[:180:] }} ... </p>
+                    {% if session['logged_in'] %}
+                        {% if session['user']['id'] == post.user_id %}
+                            <form method="POST" action="{{ url_for('links_blog.delete') }}" >
+                                <button type="submit" class="btn btn-outline-danger float-right ml-1" ><i class="fas fa-trash-alt"></i></button>
+                                <input type="hidden" name="id" value="{{ post.id }}">
+                            </form>
+                            <a href="{{ url_for('links_blog.edit',id=post.id) }}" class="btn btn-outline-info float-right ml-1"><i class="fas fa-edit"></i></a>
+                        {% endif %}    
+                    {% endif %}
+                    <form method="GET" action="{{ url_for('links_blog.singlePage',id=post.id) }}">
+                        <button type="submit" class="btn btn-outline-primary float-right"><i class="fas fa-eye" ></i></button>  
+                    </form>
+                    <p class= "text-danger text-left"> Published by
+                    <div><i class="fas fa-user"></i> {{ post.user.username }}</div>
+                    </p>
+
+                </div>
+            </div>
+            
+        </div>
+    {%endfor%}
+        
+             
+          
+        
+        {% for page in blogPage.iter_pages(left_edge=3, right_edge=3, left_current=1, right_current=2) %}
+            {% if page %}
+            <nav >
+                <ul class="pagination pagination">
+                    <li class="page-item ">
+                        <a class="page-link" href="{{url_for('links_blog.blog',page_num=page)}}" tabindex="-1">{{ page }}</a>
+                    </li>
+                     
+                </ul>
+            </nav>
+                
+            {% else %}
+                    ...
+            {% endif %}
+        {% endfor %}
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+{% block title %}
+    Product
+{% endblock %}
+
+{% block content_title %}
+<h1 class="text-center">{{ product.name }}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+   <div class="col-6">
+        <img src='/static/product_picture/{{product.product_picture}}' width="333" height="333" > 
+   </div>
+  
+   <div class="col-6">
+        <p class="card-text"> 
+            <div>Category: {{ product.category.name }}</div>
+            <div>Price: {{ product.price }} $</div>
+            <div>Company:  {{ product.company }}</div>
+            
+        </p>
+            <h3>Description</h3>
+            <div>{{product.description}}</div>
+   </div>
+ 
+    <div class="owl-carousel owl-theme col-4">
+        {% for prodImage in product.image %}
+    
+            <div><img src='/static/product_picture/{{prodImage.image}}' width="200"  ></div>
+          {% endfor %}
+    </div>
+    <form method="POST" action="{{url_for('addItem')}}" class="float-right">
+            <button class="btn btn float-right" style="color:rgb(0, 190, 190)"><i class="fas fa-shopping-cart float-right"></i></button>
+            <div style="text-align: center;">
+                <input type="number" value="1" min="1" name="items" style="text-align: center; ">
+            </div>
+            {% if session['logged_in'] %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <input type="hidden" name="user_id" value="{{ user_id.id }}">   
+            <input type="hidden" name="price" value="{{ product.price }}" >
+            {% if product.id|string in errors %}
+            <div>
+                    <small class="form-text text-danger">{{ errors[product.id|string]}}</small>
+            </div>
+                {% endif %}
+             
+        </form> 
+        {% endif %}
+
+
+
+</div>
+   
+{% endblock %}
+   
+{% block scripts %}
+
+<script src="/static/js/owl.carousel.min.js"></script>
+<script src="/static/js/owl.js"></script>
+{%endblock%}

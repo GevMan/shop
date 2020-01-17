@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width", initial-scale="1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}
+            {% endblock %}
+        </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css//owl.carousel.min.css">
+    
+    
+  </head>
+  
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    {% if session['logged_in'] %}
+        <a class="navbar-brand" href="{{url_for('links.index')}}">Profile</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% endif %}
+
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            {% if session['logged_in'] %}
+            
+              <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('logout')}}">Log out <span class="sr-only">(current)</span></a>
+              </li>
+            {% else %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('login') }}">Log in<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('reg')}}">Sign Up<span class="sr-only">(current)</span></a>
+              </li>
+            {% endif %}
+            
+            
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('links_blog.blog',page_num=1)}}">Blog <span class="sr-only">(current)</span></a>
+            </li>
+         
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('shop',page_num=1)}}">Shop <span class="sr-only">(current)</span></a>
+              </li>
+            
+              
+            
+          </ul>
+          <a href="{{url_for('shopping_cart')}}" class="btn btn float-right mr-5 "><i class="fas fa-shopping-cart "></i>
+           {% if session['logged_in'] %}
+            {{key}}
+           {% endif %}
+          </a>
+          <form class="form-inline my-2 my-lg-0" action="{{ url_for('links_blog.search',page_num=1) }}" method="GET">
+              {% if session['logged_in'] %}
+              
+                  <h5 class="mr-3"> {{ session['user']['username'] }}</h5>
+                  
+              {% endif %} 
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" name="search" aria-label="Search">
+                  <input href="{{ url_for('links_blog.search',blogPage=page_num,page_num=1) }}" class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
+              </form>
+          
+        </div>
+      </nav>
+
+      <div class="container">
+            <div class="row">
+              <div class="col-12">
+                  {% block content_title %}
+              {% endblock %}
+              </div>
+                <div class="col-12">
+                
+                  {% block content %}
+                {% endblock %}
+                </div>
+              </div>
+              
+        </div>
+        <div>
+          {% for category,message in get_flashed_messages(with_categories=true) %}
+          <div class="alert alert-{{category}} alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+      
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <script src="/static/js/all.min.js"></script>
+      <script src="/static/js/test.js"></script>
+      <script src="/static/js/username.js"></script>
+      <script src="/static/js/email.js"></script>
+      <script src="/static/js/category.js"></script>
+      <script src="/static/js/category-filter.js"></script>
+      
+
+         
+      {% if session['logged_in'] %}
+            <script>
+                var user_id = '{{ session["user"]["id"] }}';
+            </script>
+      {% endif %}
+      {% block scripts %}
+      {% endblock %}
+  </body>
+  </html>

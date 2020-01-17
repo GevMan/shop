@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+{% block title %}
+   Edit
+{% endblock %}
+
+{% block content_title %}
+    <h1 class="text-center"> Edit Your Post</h1>
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" action="{{ url_for('links_blog.editpost')}}" class="col-6 offset-3" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{ post.id }}">
+        <div class="form-group">
+        <label for="exampleInputEmail1">Title</label>
+        
+        <input type="text" class="form-control" name="title" value="{{ post.title }}">
+        {% if errors['title'] %}
+            <div>
+                <small class="form-text text-danger">{{ errors['title'] }}</small>
+            </div>
+            {% endif %}
+        </div>
+       
+
+        <div class="form-group">
+        <label for="exampleInputPassword1">Content</label>
+        <textarea  rows="10" class="form-control" name="content">{{ post.content }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Image</label>
+            <input type="file" class="form-control" name="image" value="{{post.image}}">
+          
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-5 mb-5">Edit</button>
+        
+        
+    </form>
+   
+{% endblock %}
+

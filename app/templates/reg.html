@@ -1,0 +1,74 @@
+{% extends 'base.html'%}
+    
+{% block title %}
+    Sign up page
+{% endblock %}
+    
+{% block content_title %}   
+<h1 class="text-center">Sign up page</h1> 
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center">Sign up page</h1>  
+<br>
+
+    <form action="/register" method="post" class="col-6 offset-3">
+        
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" name="username" value="{{
+                    request.form.username}}">
+            {% if errors['username'] %}
+            <div >
+                    <small class="form-text text-danger">{{ errors['username'] }}</small>
+            </div>
+                {% endif %}
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="email" name="email" value="{{
+                            request.form.email}}">
+            {% if errors['email'] %}
+            <div>
+                <small class="form-text text-danger">{{ errors['email'] }}</small>
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" name="password" value="{{
+                        request.form.password}}">
+            {% if errors['password'] %}
+            <div>
+                <small class="form-text text-danger">{{ errors['password'] }}</small>
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+                <input type="password" class="form-control" placeholder="Confirm Password" name="confpass" value="{{
+                            request.form.confpass}}">
+                            {% if errors['confpass'] %}
+            <div>
+                <small class="form-text text-danger">{{ errors['confpass'] }}</small>
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="Seller" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Seller
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="Buyer">
+            <label class="form-check-label" for="exampleRadios2">
+              Buyer
+            </label>
+          </div>
+        <div class="form-group">
+            <input class="btn btn-primary btn-block" type="submit" value="Sign up">
+        </div>
+        
+    </form>
+</br>
+
+{% endblock %}
+

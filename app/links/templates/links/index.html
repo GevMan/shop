@@ -1,0 +1,97 @@
+{% extends 'base.html'%}
+{% block title %}
+Profile 
+{% endblock %}
+
+{% block content_title %}
+{% if session['logged_in'] %}
+    <h1 class="text-center">Profile</h1>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if session['logged_in'] %}
+<div class="row">
+    <div class="col-3">
+        <img src='/static/picture/{{user.picture}}' width="250" height="350" >  
+        <form method="POST"  action="{{ url_for('links.addpicture')}}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleInputEmail1"></label>
+                <input type="file" class="form-control" name="picture">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary btn-block mb-5">Update</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-4">
+        <h5 class="mr-3"> 
+            Username: <span class="badge badge-primary" id="nameUpdate">{{ user.username }}</span>
+            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-pen" ></i>
+            </button>
+        </h5>
+        <div>
+                
+        </div>
+        
+        <h5 class="mr-3">
+                Email: <span class="badge badge-primary" id="emailUpdate"> {{ user.email }}</span>
+                <button type="button" class="btn" data-toggle="modal" data-target="#newModal">
+                    <i class="fas fa-pen" ></i>
+                </button>   
+           </h5>
+        <label for="exampleInput" ></label>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update username</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control nameUpdate{{user.id}}" value="{{ user.username }}">
+              <div>
+                  <small class="form-text text-danger nameError"></small>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary update" user_id="{{user.id}}">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="newModalLabel">Update Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <input type="text" class="form-control emailUpdate{{user.id}}" value="{{ user.email }}">
+                <div>
+                  <small class="form-text text-danger emailError"></small>
+                </div>
+                 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary updateEmail" user_id="{{user.id}}">Save changes</button>
+              </div>
+            </div>
+          </div>      
+      {% endif %}
+{% endblock %}
+

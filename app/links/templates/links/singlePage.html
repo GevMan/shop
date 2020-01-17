@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+{% block title %}
+   Single page
+{% endblock %}
+
+{% block content_title %}
+    <h1 class="text-center">{{ post.title }}</h1>
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+ 
+    <img src='/static/images/{{post.image}}' width="500" height="333" >  
+</div>
+<div>
+        <h6>{{post.content}}</h6>
+</div>
+
+{% if session['logged_in'] %}
+<form class="form-group col-8 mt-5" action="{{ url_for('links_blog.addComment') }}" method="POST">
+    <label for="Comment"><h3>Comment</h3></label>
+    <textarea  rows="3" class="form-control" name="text"></textarea>
+    <input type="hidden" name="post_id" value="{{post.id}}">
+    <input class="btn btn-primary btn-block mt-1" type="submit" value="Submit">
+    
+</form>
+
+<div class="mb-5">
+        
+        {% for co in comm %}
+        
+            <div class="col-12 mt-3 ">
+                    <div class="card">
+                        <div class="card-header">
+                                {% if session['logged_in'] %}
+                                {% if session['user']['id'] == co.user_com.id %}
+                            <form method="POST" action="{{ url_for('links_blog.delComm') }}" >
+                                <input type="hidden" name="id" value={{post.id}}>
+                                <input type="hidden" name="com_id" value="{{co.id}}">
+                                <button type="submit" class="btn btn-outline-danger float-right ml-1" ><i class="fas fa-times"></i></button>   
+                            </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                                
+                            <img src='/static/picture/{{co.user_com.picture}} ' width="50" height="60" > {{ co.user_com.username }}
+                            <div> {{ co.text }}</div>
+                        
+                        </div>       
+                        
+                    </div>    
+                    
+                </div>
+                
+         {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+

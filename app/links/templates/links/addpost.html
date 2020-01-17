@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+{% block title %}
+   Add Post
+{% endblock %}
+
+{% block content_title %}
+<h1 class="text-center"> Add Post</h1>
+{% endblock %}
+
+{% block content %}
+
+<form method="post" action="{{ url_for('links_blog.newpost')}}" class="col-6 offset-3" enctype="multipart/form-data">
+       
+        <div class="form-group">
+          <label for="exampleInputEmail1">Title</label>
+          <input type="text" class="form-control" name="title">
+          {% if errors['title'] %}
+            <div >
+                    <small class="form-text text-danger">{{ errors['title'] }}</small>                  
+            </div>
+           {% endif %}
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Content</label>
+          <textarea  rows="10" class="form-control" name="content"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Image</label>
+            <input type="file" class="form-control" name="image">
+            {% if errors['image'] %}
+            <div >
+                    <small class="form-text text-danger">{{ errors['image'] }}</small>                  
+            </div>
+           {% endif %}
+        </div>
+    
+        <button type="submit" class="btn btn-primary btn-block mt-5 mb-5">Add</button>
+       
+        
+</form>
+
+{% endblock %}

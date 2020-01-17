@@ -1,0 +1,63 @@
+{% extends 'base.html'%}
+{% block title %}
+    Shopping Cart
+{% endblock %}
+
+{% block content_title %}
+   <h1 class="text-center"> Shopping Cart</h1>
+   <head><link rel="stylesheet" href="/static/css/plus_minus.css" ></head>
+{% endblock %}
+
+{% block content %}
+
+<input   name="product_id" value="{{ product.id }}">
+{% for i in cart_items %}
+{% if session['logged_in'] %}
+                                   
+{% if session['user']['id'] == i.user_id %}
+<div class="col-6 mt-3 ">
+    <div class="card">
+       
+        <div class="card-body">
+                <form method="POST" action="{{ url_for('deleteCart') }}" >
+                        <input type="hidden" name="id" value="{{ i.id }}">
+                        
+                        <button type="submit" class="btn btn-outline-default float-right ml-1" ><i class="fas fa-times-circle"></i></button>
+                </form>
+            <p class="card-text ">
+                <h6 >{{ i.name }}</h6>
+                <div> price: {{ i.price }}</div>
+                total: <span class="total_{{i.id}}"> {{ i.qty*i.priceItem}}</span> 
+            </p>
+         
+            <div class="qty mt-5">
+                <span  class="minus bg-dark"  data-id="{{ i.id }}">-</span>
+                <input type="number"          class="count"     name="qty" value="{{ i.qty }}">
+                <span  class="plus bg-dark"   data-price="{{i.price}}" data-id="{{ i.id }}">+</span>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endif %}
+{% endif %}
+{% endfor %}
+
+
+<form method="POST" action="{{ url_for('orders') }}">
+{% if session['logged_in'] %}
+{% for i in product %}
+<input type="hidden"  name="product_id" value="{{ i.id }}">
+{% endfor %}
+        <button type="submit" style="background-color: black; color:blanchedalmond"  class="btn  float-right ">Buy</button>
+{% endif %}
+</form>
+
+
+
+{% endblock %}
+{% block scripts %}
+    <script src="/static/js/plus_minus.js"></script>
+    <script src="/static/js/increase.js"></script>
+{% endblock %}
