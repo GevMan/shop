@@ -70,7 +70,7 @@ python-dateutil==2.8.0
 python-editor==1.0.4
 python-mimeparse==1.6.0
 pytz==2019.1
-PyYAML==5.1.1
+PyYAML==5.4
 raven==6.10.0
 redis==3.2.1
 reload==0.9
