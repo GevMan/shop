@@ -5,7 +5,7 @@ Babel==2.7.0
 blinker==1.4
 blueprint==3.4.2
 cart==1.1.7
-certifi==2019.6.16
+certifi==2022.12.7
 chardet==3.0.4
 Click==7.0
 clickclick==1.2.2
